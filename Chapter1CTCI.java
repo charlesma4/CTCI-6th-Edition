@@ -20,6 +20,12 @@ public class Chapter1CTCI {
     System.out.println(isPermutation("",""));
     System.out.println(isPermutation("q","p"));
     System.out.println(isPermutation("q","q"));
+
+    System.out.println("Problem 3: ");
+    System.out.println(URLify(" ".toCharArray(),1));
+    System.out.println(URLify("hello".toCharArray(),5));
+    System.out.println(URLify("Hi my name is Charles    ".toCharArray(),21));
+    System.out.println(URLify("".toCharArray(),0));
   }
 
   //returns true if string's chars are all unique, false if not - allowed to use data structures
@@ -92,7 +98,28 @@ public class Chapter1CTCI {
 
   //replaces all spaces in a string with '%20' - assumed that string has sufficient
   //space at end to hold additional characters, and you are given true length of string
+  public static String URLify(char[] str, int tlength) {
 
+    String ret = "";
+    int index = 0;
+
+    for(int i = 0; i<tlength; i++) {
+      if(str[i]==32) {
+        ret+=new String(str).substring(index,i)+"%20";
+        index=i+1;
+      }
+    }
+
+    for(int i = index;i<str.length;i++) {
+      if(str[i]==32) {
+        ret+=new String(str).substring(index,i);
+        break;
+      }
+    }
+
+    return ret;
+
+  }
 
 
 }
