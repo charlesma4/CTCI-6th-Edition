@@ -17,6 +17,7 @@ public class Chapter1CTCI {
     System.out.println("Problem 2:");
     System.out.println(isPermutation("qwertyuiop","poiuytrewq"));
     System.out.println(isPermutation("qwertyuiop","poiutyrewq"));
+    System.out.println(isPermutation("ppfffoooaassddee","pfoasdepfoasdefo"));
     System.out.println(isPermutation("",""));
     System.out.println(isPermutation("q","p"));
     System.out.println(isPermutation("q","q"));
@@ -26,6 +27,22 @@ public class Chapter1CTCI {
     System.out.println(URLify("hello".toCharArray(),5));
     System.out.println(URLify("Hi my name is Charles    ".toCharArray(),21));
     System.out.println(URLify("".toCharArray(),0));
+
+    System.out.println("Problem 4: ");
+    System.out.println(permutationIsPalindrome("qqwweerrtttttyyuuiiiioooooo"));
+    System.out.println(permutationIsPalindrome("u"));
+    System.out.println(permutationIsPalindrome("qq"));
+    System.out.println(permutationIsPalindrome("iririririririri"));
+    System.out.println(permutationIsPalindrome(""));
+    System.out.println(permutationIsPalindrome("tacocat"));
+
+    System.out.println("Problem 6: ");
+    System.out.println(stringCompression("aabbccddeeff"));
+    System.out.println(stringCompression("aaabbccddeeee"));
+    System.out.println(stringCompression("aaafffffeeeeerererererererere"));
+    System.out.println(stringCompression("ab"));
+    System.out.println(stringCompression("a"));
+    System.out.println(stringCompression(""));
   }
 
   //returns true if string's chars are all unique, false if not - allowed to use data structures
@@ -66,7 +83,7 @@ public class Chapter1CTCI {
     Hashtable<Character, Integer> chars2 = new Hashtable<Character, Integer>();
 
     for(char x: s.toCharArray()) {
-      if(chars.contains(x)) {
+      if(chars.containsKey(x)) {
         chars.put(x,chars.get(x)+1);
       }
       else {
@@ -75,7 +92,7 @@ public class Chapter1CTCI {
     }
 
     for(char y: t.toCharArray()) {
-      if(chars2.contains(y)) {
+      if(chars2.containsKey(y)) {
         chars2.put(y,chars2.get(y)+1);
       }
       else {
@@ -121,5 +138,63 @@ public class Chapter1CTCI {
 
   }
 
+  //Returns true if given string has a permutation that is a palindrome - Returns
+  //false if it doesn't
+  public static boolean permutationIsPalindrome(String str) {
 
+    Hashtable<Character, Integer> freqs = new Hashtable<Character, Integer>();
+    int count=0;
+
+    for(char x: str.toCharArray()) {
+      if(freqs.containsKey(x)) {
+        freqs.put(x,freqs.get(x)+1);
+      }
+      else {
+        freqs.put(x,1);
+      }
+    }
+
+    Set<Character> keys = freqs.keySet();
+
+    for(char x: keys) {
+      if(freqs.get(x)%2==1) {
+        count++;
+      }
+    }
+    return count<=1 ;
+  }
+
+  //Takes a string and returns a compressed version of it e.g. aaaabbbbcccddee ->
+  //a4b4c3d2e2
+  public static String stringCompression(String str) {
+
+    char current = 0;
+    int count = 0;
+    String ret = "";
+    char[] string = str.toCharArray();
+
+    if(str.length()<=2) {
+      return str;
+    }
+
+    for(int i = 0; i<string.length; i++) {
+      if(i!=0&&string[i-1]!=string[i]) {
+        ret+=""+current+count;
+        count=0;
+      }
+      if(count==0) {
+        current=string[i];
+      }
+      if(string[i]==current) {
+        count++;
+      }
+    }
+    ret+=""+current+count;
+    if(ret.length()>=str.length()) {
+      return str;
+    }
+    else {
+      return ret;
+    }
+  }
 }
